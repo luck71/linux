@@ -668,6 +668,25 @@ drivers-y	+= virt/
 libs-y		:= lib/
 endif # KBUILD_EXTMOD
 
+.PHONY: lk_in_wrapper_check
+
+lk_in_wrapper_check:
+ifndef  IN_LK_WRAPPER
+	@echo "\033[31m##########################################################################\033[0m"
+	@echo "\033[31m## IN_LK_WRAPPER is not defined, please use ./lk_make.sh wrapper script ##\033[0m"
+	@echo "\033[31m##                                                                      ##\033[0m"
+	@echo "\033[31m##       if just run for yourself like normal make please try           ##\033[0m"
+	@echo "\033[31m##            example: make IN_LK_WRAPPER=0 help                        ##\033[0m"
+	@echo "\033[31m##            example: make IN_LK_WRAPPER=0 -j10                        ##\033[0m"
+	@echo "\033[31m##            example: make IN_LK_WRAPPER=0 bindeb-pkg -j10             ##\033[0m"
+	@echo "\033[31m##                                                                      ##\033[0m"
+	@echo "\033[31m##                                                            -- luck   ##\033[0m"
+	@echo "\033[31m##########################################################################\033[0m"
+	@exit 1
+endif
+
+all: lk_in_wrapper_check
+
 # The all: target is the default when no target is given on the
 # command line.
 # This allow a user to issue only 'make' to build a kernel including modules
