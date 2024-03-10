@@ -1,0 +1,7 @@
+{
+    "clangd.arguments": [
+        "--all-scopes-completion",
+        "--completion-style=detailed",
+        "--query-driver=/usr/bin/aarch64-linux-gnu-*"
+    ]
+}

@@ -1,0 +1,499 @@
+// /home/luck/.config/Code/User/settings.json
+{
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.o":true,
+        "**/*.su":true, 
+        "**/*.cmd":true,
+        "Documentation":true,      
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,  
+        "**/*.o":true,
+        "**/*.su":true, 
+        "**/*.cmd":true,
+        "Documentation":true, 
+    },
+    "window.commandCenter": true,
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git-Bash": {
+            "path": "D:\\Program Files (x86)\\Git\\bin\\bash.exe",
+            "args": []
+        },
+    },
+    "terminal.integrated.defaultProfile.windows": "Git-Bash",
+    "remote.SSH.path": "D:\\Program Files (x86)\\Git\\bin\\bash.exe",
+    "remote.SSH.remotePlatform": {
+        "10.10.20.123": "linux",
+        "10.10.20.117": "linux",
+        "10.10.20.133": "linux",
+        "10.10.20.87": "linux",
+        "10.10.20.18": "linux",
+        "10.10.20.131": "linux",
+        "10.10.10.59": "linux",
+        "10.10.10.118": "linux"
+    },
+    "go.testFlags": [
+        "-count=1",
+        "-v"
+    ],
+
+
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true, // enable for all themes
+        "rules": {
+            "*.static": {
+                "foreground": "#09ff00",
+                "fontStyle": "bold"
+            },
+            "parameter": {
+                "foreground": "#b69f62",
+                "fontStyle": "bold"
+            },
+            // "property": { //属性
+            //     "foreground": "#10ec98",
+            //     "fontStyle": "bold"
+            // },
+            "property": { //属性
+                "foreground": "#53645d",
+                "fontStyle": "bold"
+            },
+            // "type": { //结构体
+            //     "foreground": "#10ec98",
+            //     "fontStyle": "bold"
+            // },
+            // "macro": { //宏
+            //     // "foreground": "#ec106c",
+            //     "fontStyle": "italic"
+            // },
+            "function.global": { //函数
+                "foreground": "#5491e0",
+                "fontStyle": "bold italic",
+                "fontsize": "20"
+            },
+            "variable.global": { //全局变量
+                "foreground": "#da2a47",
+                "fontStyle": "bold italic"
+            },
+            "variable.local": { //局部变量
+                // "foreground": "#ffbd09",
+                "foreground": "#6b5312",
+                "fontStyle": "bold"
+            },
+        }
+    },
+    "editor.quickSuggestions.comments": true,
+    "highlight.regexes": {
+        /* ----------------------------------- *.c ---------------------------------- */
+        "(static.*)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "decorations": [
+                {
+                    "backgroundColor": "#35393a",
+                    // "before": {
+                    //     "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                    //     "contentText": "1234",
+                    //     "margin": "0 0.5em;",
+                    //     "color": "#000",
+                    //     "backgroundColor": "#FFF"
+                    // }
+                }
+            ]
+        },
+
+        /* -------------------------------- *.c ------------------------------- */
+        // echo `cat drivers/gpu/drm/phytium/phytium_dp.c |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|'
+        // echo `cat ./include/linux/list.h |sed -n '/^#define list_\w*/p'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|'
+        "(hlist_add_before|hlist_add_behind|hlist_add_fake|hlist_add_head|__hlist_del|hlist_del_init|hlist_del|hlist_empty|hlist_fake|hlist_is_singular_node|hlist_move_list|hlist_unhashed_lockless|hlist_unhashed|INIT_HLIST_NODE|INIT_LIST_HEAD|list_add_tail|list_add|__list_add_valid|__list_add|list_bulk_move_tail|list_cut_before|__list_cut_position|list_cut_position|__list_del_clearprev|__list_del_entry_valid|list_del_init_careful|list_del_init|__list_del_entry|__list_del|list_del|list_empty_careful|list_empty|list_is_first|list_is_head|list_is_last|list_is_singular|list_move_tail|list_move|list_replace_init|list_replace|list_rotate_left|list_rotate_to_front|__list_splice|list_splice_tail_init|list_splice_tail|list_splice_init|list_splice|list_swap|list_safe_reset_next|list_prev_entry|list_prepare_entry|list_next_entry|list_last_entry|list_for_each_safe|list_for_each_rcu|list_for_each_prev_safe|list_for_each_prev|list_for_each_entry_safe_reverse|list_for_each_entry_safe_from|list_for_each_entry_safe_continue|list_for_each_entry_safe|list_for_each_entry_reverse|list_for_each_entry_from_reverse|list_for_each_entry_from|list_for_each_entry_continue_reverse|list_for_each_entry_continue|list_for_each_entry|list_for_each_continue|list_for_each|list_first_entry_or_null|list_first_entry|list_entry_is_head|list_entry)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            // "filterFileRegex": "**/.c", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic",
+                    "before": {
+                        "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                        "contentText": "l",
+                        "margin": "0 0.5em;",
+                        "color": "#6b5312",
+                        "backgroundColor": "#35393a"
+                    }
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+        // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        /* -------------------------------- ehci-q.c ------------------------------- */
+        // static
+        "(scan_async|unlink_empty_async_suspended|unlink_empty_async|start_unlink_async|start_iaa_cycle|single_unlink_async|qtd_fill|qh_link_async|end_unlink_async|end_iaa_cycle|enable_async|ehci_urb_done|ehci_submit_single_step_set_feature|ehci_clear_tt_buffer_complete|ehci_clear_tt_buffer|disable_async)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            "filterFileRegex": ".*/ehci-q.c", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic"
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+        // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        /* -------------------------------- rtc-efi.c ------------------------------- */
+        // static
+        "(efi_rtc_driver|efi_rtc_ops|efi_read_alarm|efi_set_alarm|efi_read_time|efi_procfs|efi_rtc_ops|efi_rtc_probe|compute_yday|compute_wday|convert_to_efi_time|convert_from_efi_time|efi_set_time)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            "filterFileRegex": ".*/rtc-efi.c", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic"
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+        // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        "(devm_[\\w])": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": ".*/rtc-efi.c",
+            "decorations": [
+                {
+                    "before": {
+                        "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                        "contentText": "platform_device.h",
+                        "margin": "0 0.5em;",
+                        "color": "#000",
+                        "backgroundColor": "#FFF"
+                    }
+                }
+            ]
+        },
+        "(EFI_ISDST)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            "filterFileRegex": ".*/rtc-efi.c", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    // 整行边界 "isWholeLine": true,"gutterIconSize": "auto","borderWidth": "1px","borderStyle": "solid","borderRadius": "5px",
+                    "overviewRulerColor": "#c73d7d",
+                    "overviewRulerLane": "full",
+                    "color": "#c73d7d",
+                    "fontStyle": "bold italic"
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+    // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        /* ------------------------------ rtc-efi.c end ----------------------------- */
+        /* ----------------------------- phytium_crtc.c ----------------------------- */
+        // static fuctions
+        "(phytium_crtc_gamma_set|phytium_crtc_destroy|phytium_crtc_funcs|phytium_crtc_atomic_enable|phytium_crtc_atomic_disable|phytium_crtc_update_timing_for_drm_display_mode|phytium_crtc_atomic_check|phytium_crtc_atomic_begin|phytium_crtc_atomic_flush|phytium_crtc_mode_valid|phytium_crtc_helper_funcs)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            "filterFileRegex": ".*/phytium_crtc.c", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic"
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+        // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        // export fuctions
+        "(phytium_crtc_atomic_destroy_state|phytium_crtc_atomic_duplicate_state|drm_atomic_helper_crtc_reset|drm_atomic_helper_page_flip|drm_atomic_helper_set_config)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            "filterFileRegex": ".*/phytium_crtc.c", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    // 整行边界 "isWholeLine": true,"gutterIconSize": "auto","borderWidth": "1px","borderStyle": "solid","borderRadius": "5px",
+                    "overviewRulerColor": "#c73d7d",
+                    "overviewRulerLane": "full",
+                    "color": "#c73d7d",
+                    "fontStyle": "bold italic"
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+        // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        /* --------------------------- phytium_crtc.c end --------------------------- */
+        // static fuctions
+        "(find_first_bit)": { // A regex will be created from this string, don't forget to double escape it
+            "regexFlags": "g", // Flags used when building this regex
+            "filterLanguageRegex": "c", // Apply only if current file's language matches this regex. Requires double escaping
+            "filterFileRegex": ".*/tools/include/asm-generic/bitops/find.h", // Apply only if the current file's path matches this regex. Requires double escaping
+            "decorations": [ // Decoration options to apply to the capturing groups
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic"
+                } // Decoration options to apply to the first capturing group, in this case "//TODO"
+        // { "color": "#da2a44" } // Decoration options to apply to the second capturing group, in this case ":"
+            ]
+        },
+        "(get_common_rates|handle_plugged_change|phytium_connector_add_common_modes|phytium_connector_destroy|phytium_connector_detect|phytium_connector_get_modes|phytium_connector_mode_valid|phytium_dp_audio_codec_init|phytium_dp_audio_digital_mute|phytium_dp_audio_get_eld|phytium_dp_audio_hook_plugged_cb|phytium_dp_audio_hw_params|phytium_dp_audio_shutdown|phytium_dp_autotest_phy_pattern|phytium_dp_aux_init|phytium_dp_aux_transfer|phytium_dp_aux_transfer_read|phytium_dp_aux_transfer_write|phytium_dp_connector_register|phytium_dp_connector_unregister|phytium_dp_detect_dpcd|phytium_dp_dpcd_get_adjust_request|phytium_dp_dpcd_get_tp_link|phytium_dp_dpcd_set_lane_setting|phytium_dp_dpcd_set_link|phytium_dp_dpcd_set_test_pattern|phytium_dp_dpcd_set_train_pattern|phytium_dp_encoder_mode_set|phytium_dp_fast_link_train_detect|phytium_dp_get_dpcd|phytium_dp_get_sink_irq|phytium_dp_get_training_pattern|phytium_dp_handle_test_request|phytium_dp_hw_get_hpd_state|phytium_dp_hw_set_lane_setting|phytium_dp_hw_set_link|phytium_dp_hw_set_test_pattern|phytium_dp_hw_set_train_pattern|phytium_dp_is_edp|phytium_dp_link_training_channel_equalization|phytium_dp_link_training_clock_recovery|phytium_dp_long_pulse|phytium_dp_needs_link_retrain|phytium_dp_rate_index|phytium_dp_set_common_rates|phytium_dp_set_edid|phytium_dp_set_sink_rates|phytium_dp_short_pulse|phytium_dp_stop_link_train|phytium_dp_train_retry_work_fn|phytium_dp_unset_edid|phytium_edp_backlight_off|phytium_edp_backlight_on|phytium_edp_init_connector|phytium_edp_panel_poweroff|phytium_edp_panel_poweron|phytium_encoder_disable|phytium_encoder_enable|phytium_get_adjust_train|phytium_get_native_mode)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": ".*/phytium_dp.c",
+            "decorations": [
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic"
+                }
+                // { "color": "#da2a44" }
+            ]
+        },
+        "(bootconfig_params|debug_kernel|DECLARE_COMPLETION|do_basic_setup|do_ctors|do_early_param|do_initcall_level|do_initcalls|do_pre_smp_initcalls|do_trace_initcall_finish|do_trace_initcall_start|early_randomize_kstack_offset|exit_boot_config|EXPORT_SYMBOL_GPL|get_boot_config_from_initrd|ignore_unknown_bootoption|initcall_blacklist|initcall_blacklisted|initcall_debug_enable|init_setup|jump_label_init|kernel_init|kernel_init_freeable|LIST_HEAD|loglevel|mark_readonly|mm_init|obsolete_checksetup|panic|print_unknown_bootoptions|quiet_kernel|rdinit_setup|repair_env_string|report_meminit|run_init_process|set_debug_rodata|set_init_arg|set_reset_devices|setup_boot_config|setup_command_line|setup_nr_cpu_ids|smp_prepare_cpus|strcpy|trace_initcall_finish_cb|trace_initcall_start_cb|try_to_run_init_process|unknown_bootoption|warn_bootconfig|xbc_make_cmdline|xbc_snprint_cmdline)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": "init/main.c",
+            "decorations": [
+                {
+                    "color": "#ffbd09",
+                    "fontStyle": "bold italic"
+                }
+                // { "color": "#da2a44" }
+            ]
+        },
+        "(set_task_stack_end_magic|thread_stack_cache_init)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": "init/main.c",
+            "decorations": [
+                {
+                    "before": {
+                        "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                        "contentText": "task_stack.h - fork.c 2",
+                        "margin": "0 0.5em;",
+                        "color": "#000",
+                        "backgroundColor": "#765"
+                    }
+                }
+            ]
+        },
+        "(smp_setup_processor_id)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": "init/main.c",
+            "decorations": [
+                {
+                    "before": {
+                        "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                        "contentText": "arch dependent",
+                        "margin": "0 0.5em;",
+                        "color": "#000",
+                        "backgroundColor": "#FFF"
+                    }
+                }
+            ]
+        },
+        "(debug_objects_early_init|debug_objects_mem_init)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": "init/main.c",
+            "decorations": [
+                {
+                    "before": {
+                        "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                        "contentText": "debugobjects.h CONFIG_DEBUG_OBJECTS 2",
+                        "margin": "0 0.5em;",
+                        "color": "#000",
+                        "backgroundColor": "#765"
+                    }
+                }
+            ]
+        },
+        "(init_vmlinux_build_id)": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": "init/main.c",
+            "decorations": [
+                {
+                    "before": {
+                        "textDecoration": "`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;`",
+                        "contentText": "buildid.h",
+                        "margin": "0 0.5em;",
+                        "color": "#000",
+                        "backgroundColor": "#765"
+                    }
+                }
+            ]
+        },
+    },
+    "workbench.editor.wrapTabs": true,
+
+    "workbench.colorCustomizations": {
+        "[Visual Studio Dark]": {
+            "tab.activeBackground": "#787880",
+            // "tab.activeForeground": "#e100ff",
+            // "tab.inactiveBackground": "#00ff62",
+            // "tab.inactiveForeground": "#00b7ff",
+            "tab.lastPinnedBorder": "#c41616",
+            // "tab.unfocusedActiveForeground": "#fbff00",
+            // "tab.unfocusedActiveBackground": "#ff0000",
+        }
+    },
+
+    /* ---------------------------- status bar button --------------------------- */
+    // "C_Cpp.loggingLevel": "Error",
+    // "settingSwitch.string": [
+    //     {
+    //       "text": "AutoSave",
+    //       "key": "files.autoSave",
+    //       "value": ["onWindowChange", "onFocusChange", "off"]
+    //     }
+    //   ],
+    //   "settingSwitch.boolean": {
+    //     "Eslint": "eslint.enable", 
+    //     "Format": "editor.formatOnSave,editor.formatOnPaste" 
+    //   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // "tabnine.experimentalAutoImports": true,
+    // "editor.largeFileOptimizations": false,
+    // "editor.semanticTokenColorCustomizations": {
+    //     "enabled": true, // enable for all themes
+    //     "rules": {
+    //         // "property": {   //属性
+    //         //     "foreground": "#10ec98",
+    //         //     "fontStyle": "bold"
+    //         // },
+    //         // "macro": {      //宏
+    //         //     "foreground": "#ec106c",
+    //         //     "fontStyle": "bold"
+    //         // },
+    //         // "function": {   //函数
+    //         //     "foreground": "#5491e0",
+    //         //     "fontStyle": "bold",
+    //         //     "fontsize": "20"
+    //         // },
+    //         // "variable.local": { //局部变量
+    //         //     "foreground": "#2271da",
+    //         //     "fontStyle": "bold"
+    //         // },
+    //         "function.static": {
+    //             "foreground": "#ff4800",
+    //             "fontStyle": "bold"
+    //         },
+    //         "*.global": { //全局变量
+    //             "foreground": "#da2222",
+    //             "fontStyle": "bold italic"
+    //         }
+    //     }
+    // },
+
+
+    // "highlight.regexes": {
+    //     "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *TODO(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+    //         "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+    //         "decorations": [
+    //             {
+    //                 "overviewRulerColor": "#ffcc00",
+    //                 "backgroundColor": "#ffcc00",
+    //                 "color": "#1f1f1f",
+    //                 "fontWeight": "bold"
+    //             },
+    //             {
+    //                 "backgroundColor": "#ffcc00",
+    //                 "color": "#1f1f1f"
+    //             }
+    //         ]
+    //     },
+    //     "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *(?:FIXME|FIX|BUG|UGLY|DEBUG|HACK)(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+    //         "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+    //         "decorations": [
+    //             {
+    //                 "overviewRulerColor": "#cc0000",
+    //                 "backgroundColor": "#cc0000",
+    //                 "color": "#1f1f1f",
+    //                 "fontWeight": "bold"
+    //             },
+    //             {
+    //                 "backgroundColor": "#cc0000",
+    //                 "color": "#1f1f1f"
+    //             }
+    //         ]
+    //     },
+    //     "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *(?:REVIEW|OPTIMIZE|TSC)(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+    //         "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+    //         "decorations": [
+    //             {
+    //                 "overviewRulerColor": "#00ccff",
+    //                 "backgroundColor": "#00ccff",
+    //                 "color": "#1f1f1f",
+    //                 "fontWeight": "bold"
+    //             },
+    //             {
+    //                 "backgroundColor": "#00ccff",
+    //                 "color": "#1f1f1f"
+    //             }
+    //         ]
+    //     },
+    //     "((?:<!-- *)?(?:#|// @|//|./\\*+|<!--|--|\\* @|{!|{{!--|{{!) *(?:IDEA)(?:\\s*\\([^)]+\\))?:?)((?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!|{{!--|{{!))|(?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!|{{!--|{{!))|(?: +[^@\\n]+)?))": {
+    //         "filterFileRegex": ".*(?<!CHANGELOG.md)$",
+    //         "decorations": [
+    //             {
+    //                 "overviewRulerColor": "#cc00cc",
+    //                 "backgroundColor": "#cc00cc",
+    //                 "color": "#1f1f1f",
+    //                 "fontWeight": "bold"
+    //             },
+    //             {
+    //                 "backgroundColor": "#cc00cc",
+    //                 "color": "#1f1f1f"
+    //             }
+    //         ]
+    //     }
+    // },
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "workbench.colorTheme": "Visual Studio Dark",
+
+    "virtual-folders.folders":[
+        {
+            "name": "usb Headers",
+            "files": [
+                "**/drivers/usb/**/*.h"
+            ]
+        },
+        {
+            "name": "usb source",
+            "files": [
+                "**/drivers/usb/**/*.c"
+            ]
+        }
+    ],
+    "editor.stickyScroll.enabled": true,
+    "vt100.attribute-blink": {},
+    "window.title": "${dirty}${rootName}${separator}${activeEditorShort}${separator}${profileName}${separator}${appName}"
+}
