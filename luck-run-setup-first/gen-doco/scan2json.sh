@@ -73,7 +73,7 @@ generate_json_ext_syms(){
 
     defs=$(echo `cat $i | grep '^#define '|awk '{print $2}'|sed 's/(.*//g'`|tr ' ' '|')
     # syms=$(`cat ${i} |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
-    syms=$(echo `grep -v '^[[:space:]]\|typedef' $i|grep '.*(.*[,;]$'|awk -F '(' '{print $1}'|awk '{print $NF}' |sed 's/^[^a-zA-Z0-9_]*//g'`|sed 's/^\|$/\[^a-zA-Z0-9_\]/g'| sed 's/ /\[^a-zA-Z0-9_\]|\[^a-zA-Z0-9_\]/g')
+    syms=$(echo `grep -v '^[[:space:]]\|typedef' $i|grep '.*(.*[,;]$'|awk -F '(' '{print $1}'|awk '{print $NF}' |sed 's/^[^a-zA-Z0-9_]*//g'`|sed 's/^/(?<=\[^a-zA-Z0-9_\])/g' |sed 's/$/(?=\[^a-zA-Z0-9_\])/g' | sed 's/ /(?=\[^a-zA-Z0-9_\])|(?<=\[^a-zA-Z0-9_\])/g')
     ssyms=$(echo `cat $i |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
 
     result=
