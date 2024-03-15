@@ -1,14 +1,31 @@
 #!/bin/bash
 
-if [ -f "$1" ]; then
-    echo "文件 $1 存在"
-else
-    echo "文件 $1 不存在"
-    exit 1
-fi
+while (( "$#" )); do
+  case "$1" in
+    target_h=*)
+      target_header=${1##target_h=}
+      if [ -f "${target_header}" ]; then
+          echo "文件 $1 存在"
+          target_header_abs=$(realpath ${target_header})
+      else
+          echo "文件 $1 不存在"
+          exit 1
+      fi
+      ;;
+    *)
+      if [ -f "$1" ]; then
+          echo "文件 $1 存在"
+          targetfile=$(realpath $1)
+      else
+          echo "文件 $1 不存在"
+          exit 1
+      fi
+      ;;
+  esac
+  shift
+done
 
 
-targetfile=$(realpath $1)
 targetfile_s_h=$(echo `cat ${targetfile} | grep '^#include <.*>$'  | sed 's/^#include <\(.*\)>$/\1/'`|sed 's/^\|$\| /XX/g')
 targetfile_c_h=$(echo `cat ${targetfile} | grep '^#include ".*"$'  | sed 's/^#include "\(.*\)"$/\1/'`|sed 's/^\|$\| /XX/g')
 
@@ -57,24 +74,32 @@ generate_json_static_syms(){
 EOF
 }
 
-generate_json_ext_syms(){
+gen_frac(){
+    # l_target_file=${1}
+    # il_target_file=$(echo ${l_target_file} | sed 's/^\.\///')
+    # if [[ ${1} == *X${il_target_file}X* ]]; then
+    #   echo ""
+    #   color=${colors[$counter]}
+    #   background=${backgrounds[$counter]}
+    #   ((counter = (counter + 1) % ${#colors[@]}))
+    # else
+    #   continue
+    # fi
+    riltf=$(echo ${1} | sed 's/^\.\///')
+    rriltf=${riltf##${PROJECTPATH}/}
+    echo ""
+    color=${colors[$counter]}
+    background=${backgrounds[$counter]}
+    ((counter = (counter + 1) % ${#colors[@]}))
 
 
-  for i in `find -name "*.h"`; do
-    ii=$(echo ${i} | sed 's/^\.\///')
-    if [[ ${1} == *X${ii}X* ]]; then
-      echo ""
-      color=${colors[$counter]}
-      background=${backgrounds[$counter]}
-      ((counter = (counter + 1) % ${#colors[@]}))
-    else
-      continue
-    fi
-
-    defs=$(echo `cat $i | grep '^#define '|awk '{print $2}'|sed 's/(.*//g'`|tr ' ' '|')
-    # syms=$(`cat ${i} |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
-    syms=$(echo `grep -v '^[[:space:]]\|typedef' $i|grep '.*(.*[,;]$'|awk -F '(' '{print $1}'|awk '{print $NF}' |sed 's/^[^a-zA-Z0-9_]*//g'`|sed 's/^/(?<=\[^a-zA-Z0-9_\])/g' |sed 's/$/(?=\[^a-zA-Z0-9_\])/g' | sed 's/ /(?=\[^a-zA-Z0-9_\])|(?<=\[^a-zA-Z0-9_\])/g')
-    ssyms=$(echo `cat $i |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
+    defs=
+    syms=
+    ssyms=
+    defs=$(echo `cat ${1} | grep '^#define '|awk '{print $2}'|sed 's/(.*//g'`|tr ' ' '|')
+    # syms=$(`cat ${1} |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
+    syms=$(echo `grep -v '^[[:space:]]\|typedef' ${1} |grep '.*(.*[,;]$'|awk -F '(' '{print $1}'|awk '{print $NF}' |sed 's/^[^a-zA-Z0-9_]*//g'`|sed 's/^/(?<=\[^a-zA-Z0-9_\])/g' |sed 's/$/(?=\[^a-zA-Z0-9_\])/g' | sed 's/ /(?=\[^a-zA-Z0-9_\])|(?<=\[^a-zA-Z0-9_\])/g')
+    ssyms=$(echo `cat ${1} |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
 
     result=
 
@@ -94,7 +119,7 @@ generate_json_ext_syms(){
                 {
                     "before": {
                         "textDecoration": "\`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;\`",
-                        "contentText": "${ii} ",
+                        "contentText": "${rriltf} ",
                         "margin": "0 0.5em;",
                         "color": "${color}",
                         "backgroundColor": "${background}"
@@ -104,22 +129,114 @@ generate_json_ext_syms(){
         },
 EOF
 
-  done
+    if [ -n "$ssyms" ]; then
+    result=$ssyms
+    cat <<EOF
+        "(${result})": {
+            "regexFlags": "g",
+            "filterLanguageRegex": "c",
+            "filterFileRegex": "${targetfile_dir_rel}.*.c",
+            "decorations": [
+                {
+                    "before": {
+                        "textDecoration": "\`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;\`",
+                        "contentText": "(s) ${rriltf} ",
+                        "margin": "0 0.5em;",
+                        "color": "${color}",
+                        "backgroundColor": "${background}"
+                    }
+                }
+            ]
+        },
+EOF
+    fi
+
 
 }
 
+
+generate_json_ext_syms(){
+
+
+  for i in `find -name "*.h"`; do
+    l_target_file=${i}
+    il_target_file=$(echo ${l_target_file} | sed 's/^\.\///')
+    if [[ ${1} == *X${il_target_file}X* ]]; then
+      :
+      # echo ""
+      # color=${colors[$counter]}
+      # background=${backgrounds[$counter]}
+      # ((counter = (counter + 1) % ${#colors[@]}))
+    else
+      continue
+    fi
+    gen_frac ${l_target_file}
+#     ii=$(echo ${i} | sed 's/^\.\///')
+#     if [[ ${1} == *X${ii}X* ]]; then
+#       echo ""
+#       color=${colors[$counter]}
+#       background=${backgrounds[$counter]}
+#       ((counter = (counter + 1) % ${#colors[@]}))
+#     else
+#       continue
+#     fi
+
+#     defs=$(echo `cat $i | grep '^#define '|awk '{print $2}'|sed 's/(.*//g'`|tr ' ' '|')
+#     # syms=$(`cat ${i} |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
+#     syms=$(echo `grep -v '^[[:space:]]\|typedef' $i|grep '.*(.*[,;]$'|awk -F '(' '{print $1}'|awk '{print $NF}' |sed 's/^[^a-zA-Z0-9_]*//g'`|sed 's/^/(?<=\[^a-zA-Z0-9_\])/g' |sed 's/$/(?=\[^a-zA-Z0-9_\])/g' | sed 's/ /(?=\[^a-zA-Z0-9_\])|(?<=\[^a-zA-Z0-9_\])/g')
+#     ssyms=$(echo `cat $i |sed -n '/^static.*(/p; /static[^(]*$/ {N; /(/p;}'|grep -o "\w*("|sort -r|uniq|grep -o "\w*"`|tr ' ' '|')
+
+#     result=
+
+#     if [ -n "$syms" ] && [ -n "$defs" ]; then
+#       result="${syms}|${defs}"
+#     elif [ -n "$syms" ]; then
+#       result="$syms"
+#     elif [ -n "$defs" ]; then
+#       result="$defs"
+#     fi
+#     cat <<EOF
+#         "(${result})": {
+#             "regexFlags": "g",
+#             "filterLanguageRegex": "c",
+#             "filterFileRegex": "${targetfile_dir_rel}.*.c",
+#             "decorations": [
+#                 {
+#                     "before": {
+#                         "textDecoration": "\`;color: #ffbd09;font-size: 1em;border-radius: 1em;padding: 0 0.2em;\`",
+#                         "contentText": "${ii} ",
+#                         "margin": "0 0.5em;",
+#                         "color": "${color}",
+#                         "backgroundColor": "${background}"
+#                     }
+#                 }
+#             ]
+#         },
+# EOF
+
+  done
+  
+
+}
+
+# todo: 1. pm_runtime_enable 是static也是非static
+#       2. 全字限定
 
 echo "// ############################ highlight start ######################################################"
 
 generate_json_static_syms
 
-cd ${PROJECTPATH}/include &>/dev/null
-generate_json_ext_syms ${targetfile_s_h}
-cd - &>/dev/null
 
-cd $(dirname $targetfile) &>/dev/null
-generate_json_ext_syms ${targetfile_c_h}
-cd - &>/dev/null
+if [ -n "$target_header_abs" ]; then
+  gen_frac $target_header_abs
+else
+  cd ${PROJECTPATH}/include &>/dev/null
+  generate_json_ext_syms ${targetfile_s_h}
+  cd - &>/dev/null
 
+  cd $(dirname $targetfile) &>/dev/null
+  generate_json_ext_syms ${targetfile_c_h}
+  cd - &>/dev/null
+fi
 
 echo "// ############################ highlight end ######################################################"
